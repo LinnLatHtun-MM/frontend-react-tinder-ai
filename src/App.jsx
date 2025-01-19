@@ -66,8 +66,7 @@ const MatchesList = () => (
                     className="flex items-center space-x-4 mb-4 hover:bg-gray-100 p-2 rounded-lg transition-all"
                 >
                     <button
-                        className="focus:outline-none"
-                    >
+                        className="focus:outline-none">
                         <img
                             src={match.imageUrl}
                             alt={`${match.firstName} ${match.lastName}`}
@@ -84,8 +83,66 @@ const MatchesList = () => (
     </div>
 );
 
+const ChatScreen = () => {
+    const messages = ["Hi", "How are you?", "Let date at a coffee shop"];
+
+    const [input, setInput] = useState("");
+
+    const handleSend = () => {
+        if (input.trim()) {
+        }
+        cosole.log(input);
+        setInput("");
+    }
+    return (
+        <div className="rounded-lg shadow-lg p-4 bg-white">
+            <h2 className="text-2xl font-bold mb-4">Chat with Foo Bar</h2>
+            <div className="mb-4 h-[50vh] overflow-y-auto">
+                {messages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={`mb-2 p-2 rounded ${
+                            index % 2 === 0 ? "bg-blue-100 text-left" : "bg-gray-100 text-right"
+                        }`}
+                    >
+                        {message}
+                    </div>
+                ))}
+            </div>
+            <div className="flex items-center space-x-2">
+                <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => {
+                        setInput(e.target.value)
+                    }}
+                    placeholder="Type a message..."
+                    className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button onClick={handleSend}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Send
+                </button>
+            </div>
+        </div>
+    );
+};
+
+
 function App() {
+
     const [currentScreen, setCurrentScreen] = useState('profile');
+
+    const renderScreen = () => {
+        switch (currentScreen) {
+            case 'profile':
+                return <ProfileSelector/>;
+            case 'matches':
+                return <MatchesList/>;
+            case 'chat':
+                return <ChatScreen/>;
+        }
+    }
 
     return (
         <div className="max-w-md mx-auto mt-10">
@@ -100,9 +157,7 @@ function App() {
                     onClick={() => setCurrentScreen('matches')}
                 />
             </nav>
-            {/* Conditionally Render Screens */}
-            {currentScreen === 'profile' && <ProfileSelector/>}
-            {currentScreen === 'matches' && <MatchesList/>}
+            {renderScreen()}
         </div>
     );
 }
